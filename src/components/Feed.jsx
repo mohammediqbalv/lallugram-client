@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import PostCard from "./PostCard";
+import api from "../services/api";
 import { getSavedPosts } from "../services/userService";
 
 export default function Feed() {
@@ -11,13 +11,14 @@ export default function Feed() {
     const loadData = async () => {
       try {
         const [postsRes, saved] = await Promise.all([
-          axios.get("http://localhost:5000/api/posts"),
+          api.get("/posts"),
           getSavedPosts(),
         ]);
 
         setPosts(postsRes.data);
         setSavedPostIds(new Set(saved.map((post) => post._id)));
-      } catch {
+      } catch (err) {
+        console.error("Failed to load posts:", err);
         setPosts([]);
         setSavedPostIds(new Set());
       }
@@ -28,6 +29,7 @@ export default function Feed() {
 
   const handlePostDeleted = (postId) => {
     setPosts((prev) => prev.filter((post) => post._id !== postId));
+
     setSavedPostIds((prev) => {
       const next = new Set(prev);
       next.delete(postId);
@@ -38,14 +40,19 @@ export default function Feed() {
   return (
     <div>
       <h2 className="feed-title">Latest Posts</h2>
-      {posts.map((post) => (
-        <PostCard
-          key={post._id}
-          post={post}
-          initiallySaved={savedPostIds.has(post._id)}
-          onDelete={handlePostDeleted}
-        />
-      ))}
+
+      {posts.length === 0 ? (
+        <p>No posts available.</p>
+      ) : (
+        posts.map((post) => (
+          <PostCard
+            key={post._id}
+            post={post}
+            initiallySaved={savedPostIds.has(post._id)}
+            onDelete={handlePostDeleted}
+          />
+        ))
+      )}
     </div>
   );
 }
