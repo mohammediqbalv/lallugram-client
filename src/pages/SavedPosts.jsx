@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { getSavedPosts } from "../services/userService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/saved.css";
 
 export default function SavedPosts() {
@@ -21,19 +22,7 @@ export default function SavedPosts() {
   }, []);
 
   const getImageSrc = (image) => {
-    if (!image) {
-      return "";
-    }
-
-    if (image.startsWith("http://") || image.startsWith("https://")) {
-      return image;
-    }
-
-    if (image.startsWith("/uploads/")) {
-      return `http://localhost:5000${image}`;
-    }
-
-    return `http://localhost:5000/uploads/${image}`;
+    return getImageUrl(image);
   };
 
   const isVideoPost = (post) => {

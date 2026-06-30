@@ -4,6 +4,7 @@ import {
   getNotifications,
   markAllNotificationsAsRead,
 } from "../services/notificationService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/notifications.css";
 
 export default function Notifications() {
@@ -25,13 +26,13 @@ export default function Notifications() {
   }, []);
 
   const getSenderAvatar = (sender) => {
-    if (sender?.profileImage && sender.profileImage !== "/uploads/default-avatar.png") {
-      return `http://localhost:5000${sender.profileImage}`;
-    }
-
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      sender?.username || "User"
-    )}`;
+    return getImageUrl(
+      sender?.profileImage && sender.profileImage !== "/uploads/default-avatar.png"
+        ? sender.profileImage
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            sender?.username || "User"
+          )}`
+    );
   };
 
   const getText = (notification) => {

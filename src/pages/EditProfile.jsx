@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import { getProfile, updateProfile } from "../services/userService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/profile.css";
 
 export default function EditProfile() {
@@ -25,7 +26,7 @@ export default function EditProfile() {
         }));
 
         if (data.user.profileImage && data.user.profileImage !== "/uploads/default-avatar.png") {
-          setPreview(`http://localhost:5000${data.user.profileImage}`);
+          setPreview(getImageUrl(data.user.profileImage));
         }
       } catch (err) {
         alert(err.response?.data?.message || "Failed to load profile");

@@ -13,7 +13,9 @@ import { deletePost, likePost } from "../services/postService";
 import { addComment, deleteComment, getComments } from "../services/commentService";
 import { toggleSavePost } from "../services/userService";
 import { getConversations, sendMessageToUser } from "../services/chatService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/postcard.css";
+  
 
 export default function PostCard({ post, initiallySaved = false, onDelete }) {
   const navigate = useNavigate();
@@ -35,21 +37,18 @@ export default function PostCard({ post, initiallySaved = false, onDelete }) {
     }
   }, []);
 
-  const imageSrc = post.image?.startsWith("http://") || post.image?.startsWith("https://")
-    ? post.image
-    : post.image?.startsWith("/uploads/")
-      ? `http://localhost:5000${post.image}`
-      : `http://localhost:5000/uploads/${post.image}`;
+  const imageSrc = getImageUrl(post.image);
 
   const isVideoPost =
     post.mediaType === "video" ||
     /\.(mp4|mov|webm|m4v)(\?.*)?$/i.test(post.image || "");
 
-  const avatarSrc = post.profileImage
-    ? `http://localhost:5000${post.profileImage}`
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+  const avatarSrc = getImageUrl(
+    post.profileImage ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(
         post.username || "User"
-      )}`;
+      )}`
+  );
 
   const postOwnerId = typeof post.user === "string" ? post.user : post.user?._id;
   const selfUserId = user?._id || user?.id;
@@ -256,13 +255,13 @@ export default function PostCard({ post, initiallySaved = false, onDelete }) {
                     onClick={() => handleShareToChat(item.user._id)}
                   >
                     <img
-                      src={
+                      src={getImageUrl(
                         item.user?.profileImage && item.user.profileImage !== "/uploads/default-avatar.png"
-                          ? `http://localhost:5000${item.user.profileImage}`
+                          ? item.user.profileImage
                           : `https://ui-avatars.com/api/?name=${encodeURIComponent(
                               item.user?.username || "User"
                             )}`
-                      }
+                      )}
                       alt={item.user.username}
                       className="share-avatar"
                     />

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { getExplorePosts } from "../services/postService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/explore.css";
 
 export default function Explore() {
@@ -21,19 +22,7 @@ export default function Explore() {
   };
 
   const getImageSrc = (image) => {
-    if (!image) {
-      return "";
-    }
-
-    if (image.startsWith("http://") || image.startsWith("https://")) {
-      return image;
-    }
-
-    if (image.startsWith("/uploads/")) {
-      return `http://localhost:5000${image}`;
-    }
-
-    return `http://localhost:5000/uploads/${image}`;
+    return getImageUrl(image);
   };
 
   const isVideoPost = (post) => {

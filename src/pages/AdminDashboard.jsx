@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackButton } from "../components/BackButton";
 import { deleteAdminUser, getAdminUsers } from "../services/adminService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/admin.css";
 
 const getAvatar = (user) => {
-  if (user?.profileImage && user.profileImage !== "/uploads/default-avatar.png") {
-    return `http://localhost:5000${user.profileImage}`;
-  }
-
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-    user?.username || "User"
-  )}`;
+  return getImageUrl(
+    user?.profileImage && user.profileImage !== "/uploads/default-avatar.png"
+      ? user.profileImage
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          user?.username || "User"
+        )}`
+  );
 };
 
 export default function AdminDashboard() {

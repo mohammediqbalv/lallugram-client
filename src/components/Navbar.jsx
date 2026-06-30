@@ -11,6 +11,9 @@ import { getNotifications } from "../services/notificationService";
 import { searchUsers } from "../services/userService";
 import logoImage from "../assets/logo.png";
 import "../styles/navbar.css";
+import { getImageUrl } from "../utils/imageUrl";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -64,13 +67,13 @@ export default function Navbar() {
     };
   }, []);
 
-  const hasCustomProfileImage =
-    user?.profileImage && user.profileImage !== "/uploads/default-avatar.png";
-  const navbarAvatar = hasCustomProfileImage
-    ? `http://localhost:5000${user.profileImage}`
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-        user?.username || "Guest"
-      )}`;
+  const navbarAvatar = getImageUrl(
+    user?.profileImage && user.profileImage !== "/uploads/default-avatar.png"
+      ? user.profileImage
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          user?.username || "Guest"
+        )}`
+  );
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -102,16 +105,14 @@ export default function Navbar() {
   }, [searchText]);
 
   const getSearchAvatar = (searchUser) => {
-    if (
+    return getImageUrl(
       searchUser?.profileImage &&
-      searchUser.profileImage !== "/uploads/default-avatar.png"
-    ) {
-      return `http://localhost:5000${searchUser.profileImage}`;
-    }
-
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      searchUser?.username || "User"
-    )}`;
+        searchUser.profileImage !== "/uploads/default-avatar.png"
+        ? searchUser.profileImage
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            searchUser?.username || "User"
+          )}`
+    );
   };
 
   const handleOpenUser = (id) => {
@@ -127,6 +128,7 @@ export default function Navbar() {
         <img src={logoImage} alt="LalluGram Logo" className="logo-image" />
         <span className="logo-text">LalluGram</span>
       </div>
+
       <div className="navbar-search-wrap">
         <input
           type="text"
@@ -142,13 +144,14 @@ export default function Navbar() {
             setTimeout(() => setIsSearchOpen(false), 150);
           }}
         />
-        {isSearchOpen && searchText.trim() ? (
+
+        {isSearchOpen && searchText.trim() && (
           <div className="navbar-search-results">
             {searchResults.length > 0 ? (
               searchResults.map((searchUser) => (
                 <button
-                  type="button"
                   key={searchUser._id}
+                  type="button"
                   className="navbar-search-user"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => handleOpenUser(searchUser._id)}
@@ -167,29 +170,48 @@ export default function Navbar() {
               <p className="navbar-search-empty">No users found</p>
             )}
           </div>
-        ) : null}
+        )}
       </div>
+
       <div className="menu">
         <span className="menu-item" onClick={() => navigate("/")}>
           <FiHome />
         </span>
-        <span className="menu-item" aria-label="Chat" onClick={() => navigate("/chat")}>
+
+        <span
+          className="menu-item"
+          onClick={() => navigate("/chat")}
+        >
           <FiMessageCircle />
         </span>
-        <span className="menu-item saved" onClick={() => navigate("/saved")}>
-          <span className="saved-icon" aria-hidden="true">
+
+        <span
+          className="menu-item saved"
+          onClick={() => navigate("/saved")}
+        >
+          <span className="saved-icon">
             <FiBookmark />
           </span>
           <span className="saved-text">Saved</span>
         </span>
-        <span className="menu-item bell" onClick={() => navigate("/notifications") }>
+
+        <span
+          className="menu-item bell"
+          onClick={() => navigate("/notifications")}
+        >
           <FiBell />
-          {unreadCount > 0 ? <span className="badge">{unreadCount}</span> : null}
+          {unreadCount > 0 && (
+            <span className="badge">{unreadCount}</span>
+          )}
         </span>
+
         <span className="menu-item navbar-user">
           <img src={navbarAvatar} alt="" className="navbar-avatar" />
-          <span className="navbar-username">{user?.username || "Guest"}</span>
+          <span className="navbar-username">
+            {user?.username || "Guest"}
+          </span>
         </span>
+
         <span className="menu-item logout" onClick={handleLogout}>
           <FiLogOut />
           <span className="logout-text">Logout</span>

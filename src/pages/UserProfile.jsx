@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import { getUserProfileById } from "../services/userService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/profile.css";
 
 export default function UserProfile() {
@@ -26,30 +27,17 @@ export default function UserProfile() {
     return <h2>Loading...</h2>;
   }
 
-  const hasCustomProfileImage =
+  const profileImage = getImageUrl(
     profile.user.profileImage &&
-    profile.user.profileImage !== "/uploads/default-avatar.png";
-
-  const profileImage = hasCustomProfileImage
-    ? `http://localhost:5000${profile.user.profileImage}`
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-        profile.user.username || "User"
-      )}`;
+      profile.user.profileImage !== "/uploads/default-avatar.png"
+      ? profile.user.profileImage
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          profile.user.username || "User"
+        )}`
+  );
 
   const getPostImageSrc = (image) => {
-    if (!image) {
-      return "";
-    }
-
-    if (image.startsWith("http://") || image.startsWith("https://")) {
-      return image;
-    }
-
-    if (image.startsWith("/uploads/")) {
-      return `http://localhost:5000${image}`;
-    }
-
-    return `http://localhost:5000/uploads/${image}`;
+    return getImageUrl(image);
   };
 
   const isVideoPost = (post) => {
@@ -64,13 +52,13 @@ export default function UserProfile() {
   };
 
   const getConnectionAvatar = (user) => {
-    if (user?.profileImage && user.profileImage !== "/uploads/default-avatar.png") {
-      return `http://localhost:5000${user.profileImage}`;
-    }
-
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      user?.username || "User"
-    )}`;
+    return getImageUrl(
+      user?.profileImage && user.profileImage !== "/uploads/default-avatar.png"
+        ? user.profileImage
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            user?.username || "User"
+          )}`
+    );
   };
 
   return (

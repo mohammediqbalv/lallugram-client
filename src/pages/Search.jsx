@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import { followUser, searchUsers } from "../services/userService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/search.css";
 
 export default function Search() {
@@ -28,13 +29,13 @@ export default function Search() {
   };
 
   const getAvatar = (user) => {
-    if (user.profileImage && user.profileImage !== "/uploads/default-avatar.png") {
-      return `http://localhost:5000${user.profileImage}`;
-    }
-
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      user.username || "User"
-    )}`;
+    return getImageUrl(
+      user.profileImage && user.profileImage !== "/uploads/default-avatar.png"
+        ? user.profileImage
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            user.username || "User"
+          )}`
+    );
   };
 
   const handleFollow = async (id) => {

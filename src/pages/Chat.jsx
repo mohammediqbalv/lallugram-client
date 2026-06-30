@@ -7,16 +7,17 @@ import {
   getMessagesWithUser,
   sendMessageToUser,
 } from "../services/chatService";
+import { getImageUrl } from "../utils/imageUrl";
 import "../styles/chat.css";
 
 const getAvatar = (user) => {
-  if (user?.profileImage && user.profileImage !== "/uploads/default-avatar.png") {
-    return `http://localhost:5000${user.profileImage}`;
-  }
-
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-    user?.username || "User"
-  )}`;
+  return getImageUrl(
+    user?.profileImage && user.profileImage !== "/uploads/default-avatar.png"
+      ? user.profileImage
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          user?.username || "User"
+        )}`
+  );
 };
 
 const parseSharedMessage = (text) => {
