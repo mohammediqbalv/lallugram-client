@@ -1,0 +1,51 @@
+.notifications-page {
+  max-width: 760px;
+  margin: auto;
+  padding: 20px;
+}
+
+.notifications-page h2 {
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.notification-item p {
+  margin: 0;
+}
+
+.notification-item small {
+  color: #6b7280;
+}
+
+.notification-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.empty-note {
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .notifications-page {
+    padding: 8px;
+  }
+}

@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  --theme-primary: #d97706;
+  --theme-primary-dark: #b45309;
+  --theme-primary-soft: #fef3c7;
+  --theme-bg: #fffbeb;
+  --theme-text-strong: #78350f;
+  --brand-font: "Anoretha Sweet", "Brush Script MT", "Segoe Script", cursive;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--theme-bg);
+  font-family: Arial, Helvetica, sans-serif;
+}

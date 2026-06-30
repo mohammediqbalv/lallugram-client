@@ -1,0 +1,16 @@
+.rightbar {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  height: fit-content;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.rightbar h3 {
+  margin: 0 0 12px;
+}
+
+.online-item {
+  padding: 8px 0;
+  color: #374151;
+}

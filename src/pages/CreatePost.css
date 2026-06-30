@@ -1,0 +1,125 @@
+.create-page {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.cropper-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  padding: 14px;
+}
+
+.cropper-modal {
+  width: min(640px, 96vw);
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.3);
+}
+
+.cropper-modal h3 {
+  margin: 0 0 10px;
+}
+
+.cropper-wrap {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111827;
+}
+
+.cropper-controls {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cropper-controls label {
+  min-width: 46px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.cropper-controls input {
+  width: 100%;
+}
+
+.cropper-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cropper-cancel,
+.cropper-apply {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.cropper-cancel {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.cropper-apply {
+  background: var(--theme-primary);
+  color: #fff;
+}
+
+.create-card {
+  width: 650px;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.create-card h2 {
+  text-align: center;
+}
+
+.preview {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 15px;
+  background: #000;
+}
+
+.create-card input,
+.create-card textarea {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.create-card button {
+  padding: 15px;
+  background: var(--theme-primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.create-card button:hover {
+  background: var(--theme-primary-dark);
+}
